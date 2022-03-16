@@ -1,31 +1,40 @@
 #include <stdio.h>
-#include <stdio_ext.h>
+// ? #include <stdio_ext.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "address_book.h"
 #include "address_book_fops.h"
 #include "address_book_menu.h"
+#include "address_book_fops.c"
 
 int main(void)
 {
-	AddressBook address_book;
-	Status ret;
+     printf("============= Project 3, Group 2 =============\n");
+     AddressBook address_book;
+     Status ret;
 
-	/* Load the file from .csv file if any */
-	ret = load_file(&address_book);
+    /* Load the file from .csv file if any */
+    ret = load_file(&address_book);
 
-	if (ret == e_success)
-	{
-		/* Show all the available menu */
-		ret = menu(&address_book);
+    if (ret == e_success)
+    {
+        printf("\n----- Calling menu() function in main to show all the available menu. -----\n");
+        
+        /* Show all the available menu */
+        // ret = menu(&address_book);
 
-		if (ret == e_success)
-		{
-			/* Save the entries */
-			save_prompt(&address_book);
-		}
-	}
+        if (ret == e_success)
+        {
+            printf("\n----- Calling save_prompt() function in main to save the entries. -----\n");
+            /* Save the entries */
+         //   save_prompt(&address_book);
+        }
 
-	return 0;
+        
+    }
+
+   
+    printf("\n============= END of Project 3, Group 2 =============\n");
+    return 0;
 }
