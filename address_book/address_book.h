@@ -48,7 +48,7 @@ typedef enum
 	e_back,
 	e_success,
 	e_no_match,
-	e_new_line,
+	e_new_line, 
 } Status;
 
 typedef enum 

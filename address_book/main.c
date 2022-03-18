@@ -7,6 +7,9 @@
 #include "address_book_fops.h"
 #include "address_book_menu.h"
 #include "address_book_fops.c"
+#include "address_book_menu.c"
+#include "panda_work.c"
+
 
 int main(void)
 {

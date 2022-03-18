@@ -146,12 +146,17 @@ Status search_contact(AddressBook *address_book)
 	/* Add the functionality for search contacts here */
 }
 
-Status edit_contact(AddressBook *address_book)
-{
-	/* Add the functionality for edit contacts here */
-}
 
-Status delete_contact(AddressBook *address_book)
-{
-	/* Add the functionality for delete contacts here */
-}
+
+/******** relocate to a new sub class by Suhuan ********/
+
+// Status edit_contact(AddressBook *address_book)
+// {
+	// /* Add the functionality for edit contacts here */
+// }
+// 
+// Status delete_contact(AddressBook *address_book)
+// {
+	// /* Add the functionality for delete contacts here */
+// }
+/******** END ********/
