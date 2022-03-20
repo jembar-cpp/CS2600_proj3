@@ -153,22 +153,23 @@ Status edit_contact(AddressBook *address_book)
 
 Status delete_contact(AddressBook *address_book)
 {
-	char choice; 
+    char choice; 
     char* searchWord[255];
     char searchBy[255];
     char select[10];
 
     ContactInfo * contactInfo = address_book->list; 
-    
+
     while(strcmp(choice,'0') !=0)
     {
         //call menu_header function 
         menu_header("Search Contact to Delete by: "); 
-        strcmp(select, "select");
+        strcpy(select, "select");
         //choices 
         printf("\n0. Back\n");
         printf("1. Name\n");
         printf("2. Phone No 1\n");
+        printf("3. Email ID 1\n");
         printf("4. Serial No\n");
         prontf("Please select an option for search: "); 
         scanf("%c", choice); //save the result in var choice 
@@ -177,11 +178,12 @@ Status delete_contact(AddressBook *address_book)
         {
             //call menu_header function 
             menu_header("Search Contact to Delete by: "); 
-            strcmp(select, "select");
+            strpy(select, "NoExit");
             //choices 
             printf("\n0. Back\n");
             printf("1. Name\n");
             printf("2. Phone No 1\n");
+            printf("3. Email ID 1\n");
             printf("4. Serial No\n");
             prontf("Please select an option for search: "); 
             scanf("%s", choice); //save the result in var choice 
@@ -240,11 +242,11 @@ Status delete_contact(AddressBook *address_book)
             }
 
         }
-        while(strcmp(choice,'q')!=0)
+        while(strcmp(select,'q')!=0)
         {
             printf("\nPress: [s] = Select, [q] to Cancel: ");
-            scanf("%s", choice);
-            if(strcmp(choice,'q')!=0)
+            scanf("%s", select);
+            if(strcmp(select,'q')!=0)
             {
                 printf("\nSelect a Serial Number (S.No) to Edit: ");
                 scanf("%s", searchWord); 
@@ -253,7 +255,7 @@ Status delete_contact(AddressBook *address_book)
                 {
                     if(search(searchWord, address_book,i,0,"Serial",e_search) ==e_success)
                     {
-                        while(strcmp(choice,'0')!=0)
+                        while(strcmp(choice,'0')!= 0)
                         {
                             menu_header("Edit Contact: ");
                             printf("\n0. Back");
@@ -301,7 +303,7 @@ Status delete_contact(AddressBook *address_book)
                                 address_book->count--; 
                             }
                             strcpy(choice,'0');
-                            strcpy(choice,'q');
+                            strcpy(select,'q');
                         }
                     }
                 }
