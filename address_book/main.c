@@ -8,7 +8,7 @@
 #include "address_book_menu.h"
 #include "address_book_fops.c"
 #include "address_book_menu.c"
-#include "panda_work.c"
+
 
 
 int main(void)
@@ -25,7 +25,7 @@ int main(void)
         printf("\n----- Calling menu() function in main to show all the available menu. -----\n");
         
         /* Show all the available menu */
-        // ret = menu(&address_book);
+        ret = menu(&address_book);
 
         if (ret == e_success)
         {
