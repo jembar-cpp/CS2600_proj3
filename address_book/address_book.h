@@ -18,6 +18,7 @@
 #define EMAIL_ID_COUNT				5
 
 #define FIELD_DELIMITER				','
+#define FIELD_SEPARATOR				' '
 #define NEXT_ENTRY					'\n'
 
 typedef int bool_t;
