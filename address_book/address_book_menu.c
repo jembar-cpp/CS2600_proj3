@@ -153,10 +153,13 @@ Status edit_contact(AddressBook *address_book)
 
 Status delete_contact(AddressBook *address_book)
 {
-    char choice; 
+	char choice; 
     char* searchWord[255];
     char searchBy[255];
     char select[10];
+
+    ContactInfo * contactInfo = address_book->list; 
+    
     while(strcmp(choice,'0') !=0)
     {
         //call menu_header function 
@@ -246,7 +249,7 @@ Status delete_contact(AddressBook *address_book)
                 printf("\nSelect a Serial Number (S.No) to Edit: ");
                 scanf("%s", searchWord); 
                 menu_header("Edit Contact: "); 
-                for(int i=0; i < newAddress->count; ++i)
+                for(int i=0; i < address_book->count; ++i)
                 {
                     if(search(searchWord, address_book,i,0,"Serial",e_search) ==e_success)
                     {
@@ -284,18 +287,18 @@ Status delete_contact(AddressBook *address_book)
                             {
                                 ContactInfo *contactPtr = newAddress->list;
                                 printf("\nSerial: %d", (i+contactPtr)->si_no);
-                                strcpy(*(i+contactPtr)->name, *((newAddress->count-1)+contactPtr)->name);
+                                strcpy(*(i+contactPtr)->name, *((address_book->count-1)+contactPtr)->name);
                                 for(int j=0; j,5;++j)
                                 {
-                                    strcpy((i+contactPtr)->phone_numbers[j], ((newAddress->count-1)+contactPtr)->phone_numbers[j]);
+                                    strcpy((i+contactPtr)->phone_numbers[j], ((address_book->count-1)+contactPtr)->phone_numbers[j]);
                                 }
                                 for(int j=0; j,5;++j)
                                 {
-                                    strcpy((i+contactPtr)->email_addresses, ((newAddress->count-1)+contactPtr)->email_addresses[j]);
+                                    strcpy((i+contactPtr)->email_addresses, ((address_book->count-1)+contactPtr)->email_addresses[j]);
                                 }
-                                contactinfo = (ContactInfo*) realloc(contactinfo, ((newAddress->count - 1) * sizeof(ContactInfo)));
-                                newAddress->list = contactinfo;
-                                newAddress->count--; 
+                                contactinfo = (ContactInfo*) realloc(contactinfo, ((address_book->count - 1) * sizeof(ContactInfo)));
+                                address_book->list = contactinfo;
+                                address_book->count--; 
                             }
                             strcpy(choice,'0');
                             strcpy(choice,'q');
