@@ -123,6 +123,15 @@ Status load_file(AddressBook *address_book)
 	return e_success;
 }
 
+/**
+ * Function save_file
+ * Saves the content of the address book's contacts list from memory into a CSV file.
+ * Return success if the file was saved properly.
+ * Return failure if the file was not saved properly.
+ * 
+ * @param address_book, pointer to an address book
+ * @return Status (enum), whether the file was successfully saved or not.
+ */
 Status save_file(AddressBook *address_book)
 {
 	address_book->fp = fopen(DEFAULT_FILE, "w"); // try to open the file
