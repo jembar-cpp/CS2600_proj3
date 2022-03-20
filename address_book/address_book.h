@@ -19,6 +19,7 @@
 
 #define FIELD_DELIMITER				','
 #define NEXT_ENTRY					'\n'
+#define FIELD_SEPARATOR				' '
 
 typedef int bool_t;
 
