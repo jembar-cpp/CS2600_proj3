@@ -153,5 +153,156 @@ Status edit_contact(AddressBook *address_book)
 
 Status delete_contact(AddressBook *address_book)
 {
-	/* Add the functionality for delete contacts here */
+    char choice; 
+    char* searchWord[255];
+    char searchBy[255];
+    char select[10];
+    while(strcmp(choice,'0') !=0)
+    {
+        //call menu_header function 
+        menu_header("Search Contact to Delete by: "); 
+        strcmp(select, "select");
+        //choices 
+        printf("\n0. Back\n");
+        printf("1. Name\n");
+        printf("2. Phone No 1\n");
+        printf("4. Serial No\n");
+        prontf("Please select an option for search: "); 
+        scanf("%c", choice); //save the result in var choice 
+        //input validation loop 
+        while((int)choice <0 || (int)choice > 4)
+        {
+            //call menu_header function 
+            menu_header("Search Contact to Delete by: "); 
+            strcmp(select, "select");
+            //choices 
+            printf("\n0. Back\n");
+            printf("1. Name\n");
+            printf("2. Phone No 1\n");
+            printf("4. Serial No\n");
+            prontf("Please select an option for search: "); 
+            scanf("%s", choice); //save the result in var choice 
+        }
+        //Back 
+        if(strcmp(choice, '0') ==0)
+        {
+            break; //stop 
+        }
+        //Name 
+        else if(strcmp(choice, '1') ==0)
+        {
+            printf("\nEnter the name: ");
+            scanf("%s", searchWord);
+            strcpy(searchBy, "Name"); 
+        }
+        //Phone Number  
+        else if(strcmp(choice, '2') ==0)
+        {
+            printf("\nEnter Phone No 1: ");
+            scanf("%s", searchWord);
+            strcpy(searchBy, "Phone"); 
+        }
+        //Email 
+        else if(strcmp(choice, '3') ==0)
+        {
+            printf("\nEnter Email ID 1: ");
+            scanf("%s", searchWord);
+            strcpy(searchBy, "Email"); 
+        }
+        //Serial No 
+        else if(strcmp(choice, '4') ==0)
+        {
+            printf("\nEnter Serial No: ");
+            scanf("%s", searchWord);
+            strcpy(searchBy, "Serial"); 
+        }
+        //view the search results 
+        menu_header("Search Result:\n");
+        printf("===================================================================================================");
+        printf("\n: S.No : Name                              : Phone No                          : Email ID                                  :");
+
+        for(int i=0; i < newAddress ->count; ++i)
+        {
+            if(search(searchWord, address_book, i, 0, searchBy, e_search) == e_success)
+            {
+                 char format[20] = " ";
+                ContactInfo *contactPtr = newAddress ->list;
+                printf("==================================================================================================");
+                printf("\n: %-4.4d : %-33.32s : %-33.32s : %-41.32s :", (i+contactPtr)->si_no, (i+contactPtr)->name, (i+contactPtr)->phone_numbers[0], (i+contactPtr)->email_addresses); 
+                for(int j=1; j<5; ++j)
+                {
+                    printf("\n: %-4.4s : %-33.32s : %-33.32s : %-41.32s :",format, format,(i+contactPtr)->phone_numbers[j], (i+contactPtr)->email_addresses[j]);
+
+                }
+            }
+
+        }
+        while(strcmp(choice,'q')!=0)
+        {
+            printf("\nPress: [s] = Select, [q] to Cancel: ");
+            scanf("%s", choice);
+            if(strcmp(choice,'q')!=0)
+            {
+                printf("\nSelect a Serial Number (S.No) to Edit: ");
+                scanf("%s", searchWord); 
+                menu_header("Edit Contact: "); 
+                for(int i=0; i < newAddress->count; ++i)
+                {
+                    if(search(searchWord, address_book,i,0,"Serial",e_search) ==e_success)
+                    {
+                        while(strcmp(choice,'0')!=0)
+                        {
+                            menu_header("Edit Contact: ");
+                            printf("\n0. Back");
+                            printf("\n1. Name       : %s", ((i)+contactinfo)->name);
+                            printf("\n2. Phone No 1 : %s", ((i)+contactinfo)->phone_numbers[0]);
+                            int counter = 3; 
+                            int amtOfEmails = 1; 
+                            int amtOfPhones = 1;
+                            for(int j=1; j<5; ++j)
+                            {
+                                if(strcmp((i+contactinfo)->phone_numbers[j], " ") !=0)
+                                {
+                                    printf("\n Phone No %d: %s", j+1, (i + contactinfo)->phone_numbers[1]);
+                                    ++counter;
+                                    ++amtOfPhones;
+                                }
+                            }
+                            printf("\n3. Email ID 1 : %s", ((i)+contactinfo)->email_addresses[0]);
+                            for(int j=1; j<5;++j)
+                            {
+                                if(strcmp((i+contactinfo)->email_addresses[j], " ") !=0)
+                                {
+                                    printf("\n  Email No %d  :  %s", j+1,(i+contactinfo)->email_addresses[j]);
+                                    ++amtOfEmails;
+                                    ++counter;
+                                }
+                            }
+                            printf("\n\nPress Y to delete. You can press any other key to ignore. ");
+                            scanf("%s", choice);
+                            if(strcmp(choice, 'Y') ==0)
+                            {
+                                ContactInfo *contactPtr = newAddress->list;
+                                printf("\nSerial: %d", (i+contactPtr)->si_no);
+                                strcpy(*(i+contactPtr)->name, *((newAddress->count-1)+contactPtr)->name);
+                                for(int j=0; j,5;++j)
+                                {
+                                    strcpy((i+contactPtr)->phone_numbers[j], ((newAddress->count-1)+contactPtr)->phone_numbers[j]);
+                                }
+                                for(int j=0; j,5;++j)
+                                {
+                                    strcpy((i+contactPtr)->email_addresses, ((newAddress->count-1)+contactPtr)->email_addresses[j]);
+                                }
+                                contactinfo = (ContactInfo*) realloc(contactinfo, ((newAddress->count - 1) * sizeof(ContactInfo)));
+                                newAddress->list = contactinfo;
+                                newAddress->count--; 
+                            }
+                            strcpy(choice,'0');
+                            strcpy(choice,'q');
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
