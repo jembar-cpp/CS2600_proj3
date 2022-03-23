@@ -133,8 +133,7 @@ Status menu(AddressBook *address_book)
 
 Status add_contacts(AddressBook *address_book)
 {
-	
-    ContactInfo* contactInfo = address_book->list;
+	ContactInfo* contactInfo = address_book->list;
     char response[255]; 
     //no data added
     int addedData =1; 
@@ -201,7 +200,7 @@ Status edit_contact(AddressBook *address_book)
 
 Status delete_contact(AddressBook *address_book)
 {
-    char choice[10]; 
+	char choice[10]; 
     char searchWord[255];
     char searchBy[255];
     char select[10];
@@ -358,4 +357,6 @@ Status delete_contact(AddressBook *address_book)
                 }
             }
         }
+    }
 }
+
