@@ -133,7 +133,55 @@ Status menu(AddressBook *address_book)
 
 Status add_contacts(AddressBook *address_book)
 {
-	/* Add the functionality for adding contacts here */
+	
+    ContactInfo* contactInfo = address_book->list;
+    char response[255]; 
+    //no data added
+    int addedData =1; 
+    contactInfo = (ContactInfo*) realloc(contactInfo, ((address_book->count + 1) * sizeof(ContactInfo)));
+    address_book->list = contactInfo; 
+    strcpy(*((address_book->count) + contactInfo)->name, " ");
+    strcpy(((address_book->count) + contactInfo)->phone_numbers[0], " ");
+    strcpy(((address_book->count) + contactInfo)->email_addresses[0], " ");
+
+    while(strcmp(response, "0") != 0)
+    {
+        list_contacts(address_book, "lister", 0, "list", e_add);
+        printf("\n\nPlease select an option for add: ");
+        scanf("%s", response);
+        if(strcmp(response, "1") == 0)
+        {
+            printf("\nEnter name: ");
+            scanf("%s", ((address_book->count) + contactInfo)->name); 
+            //data was added
+            addedData = 0;
+        } 
+        else if(strcmp(response, "2") ==0)
+        {
+            printf("\nEnter Phone No 1: ");
+            scanf("%s", ((address_book->count) + contactInfo)->phone_numbers[0]); 
+            //data was added
+            addedData = 0;
+        }
+        else if(strcmp(response, "3")==0)
+        {
+            printf("\nEnter Email ID 1: ");
+            scanf("%s", ((address_book->count) + contactInfo)->email_addresses[0]); 
+            //data was added
+            addedData = 0;
+        }
+    }
+    //if anything was added 
+    if(addedData ==0)
+    {
+        ((address_book->count)+contactInfo)->si_no = address_book->count + 1;
+        for(int i =1; i <5; ++i)
+        {
+            strcpy(((address_book->count)+contactInfo)->phone_numbers[i], " ");
+            strcpy(((address_book->count)+contactInfo)->email_addresses[i], " ");
+        }
+        ++address_book->count; 
+    }
 }
 
 Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
