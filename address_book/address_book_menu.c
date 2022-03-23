@@ -47,11 +47,39 @@ Status save_prompt(AddressBook *address_book)
 
 Status list_contacts(AddressBook *address_book, const char *title, int *index, const char *msg, Modes mode)
 {
-	/* 
-	 * Add code to list all the contacts availabe in address_book.csv file
-	 * Should be menu based
-	 * The menu provide navigation option if the entries increase the page size
-	 */ 
+    ContactInfo* contactInfo = address_book->list; 
+	if (mode == e_list) 
+    {
+		menu_header("Search Result:\n");
+		printf("============================================================================================================================");
+		printf("\n: S.No : Name                              : Phone No                          : Email ID                                  :");
+		for (int i = 0; i < address_book->count; i++) 
+        {   
+			char format[20] = " ";
+			ContactInfo *ptr = address_book->list;
+			printf("\n============================================================================================================================");
+			printf("\n: %-4.4d : %-33.32s : %-33.32s : %-41.32s :", (i+ptr)->si_no, (i+ptr)->name, (i+ptr)->phone_numbers[0], (i+ptr)->email_addresses);
+			for (int j = 1; j < 5; j++) {
+				printf("\n: %-4.4s : %-33.32s : %-33.32s : %-41.32s :"
+				,format, format,(i+ptr)->phone_numbers[j], (i+ptr)->email_addresses[j]);
+			}
+    	}
+		printf("\n============================================================================================================================");
+		char exit[10];
+		while(strcmp(exit, "q") != 0) 
+        {
+			printf("\nPress: [q] to Cancel: ");
+			scanf("%s", exit);
+		}
+	}
+	else if(mode == e_add) 
+    {
+		menu_header("Add Contact: ");
+		printf("\n0. Back");
+		printf("\n1. Name        : %s", ((address_book->count)+contactInfo)->name);
+		printf("\n2. Phone No 1  : %s",((address_book->count)+contactInfo)->phone_numbers[0]);
+		printf("\n3. Email ID 1  : %s", ((address_book->count)+contactInfo)->email_addresses[0]);
+	}
 
 	return e_success;
 }
