@@ -1,24 +1,21 @@
 #include <stdio.h>
-#include <stdio_ext.h>
+//#include <stdio_ext.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
-#include "abk_fileops.h"
-#include "abk_log.h"
-#include "abk_menus.h"
-#include "abk.h"
+#include "address_book.h"
+//#include "abk_log.h"
+#include "address_book_menu.h"
+#include "address_book.h"
 
 int get_option(int type, const char *msg)
 {
-	/*
-	 * Mutilfuction user intractions like
-	 * Just an enter key detection
-	 * Read an number
-	 * Read a charcter
-	 */ 
+    
+    int option;
+    option = get_option(NUM, "");
 
-	/* Fill the code to add above functionality */
+    return option;
 }
 
 Status save_prompt(AddressBook *address_book)
@@ -33,7 +30,7 @@ Status save_prompt(AddressBook *address_book)
 
 		if (option == 'Y')
 		{
-			save_file(address_book);
+			Status ret = save_file(address_book);
 			printf("Exiting. Data saved in %s\n", DEFAULT_FILE);
 
 			break;
@@ -107,6 +104,7 @@ Status menu(AddressBook *address_book)
 		{
 			case e_add_contact:
 				/* Add your implementation to call add_contacts function here */
+                edit_contact(address_book);
 				break;
 			case e_search_contact:
 				search_contact(address_book);
@@ -134,6 +132,24 @@ Status menu(AddressBook *address_book)
 Status add_contacts(AddressBook *address_book)
 {
 	/* Add the functionality for adding contacts here */
+	int cNum = address_book->count;
+
+	printf("##### Add Contact:\n\n");
+	printf("0. Back");
+	printf("\n1. Name: ");
+	if(strcmp(address_book->list[cNum].name[0], "") != 0) { // check if name is set
+		printf("%s", address_book->list[cNum].name[0]);
+	}
+	printf("\n2. Phone No 1: ");
+	if(strcmp(address_book->list[cNum].phone_numbers[0], "") != 0) { // check if phone number is set
+		printf("%s", address_book->list[cNum].phone_numbers[0]);
+	}
+	// Print the rest of the phone numbers
+	for(int i = 1; strcmp(address_book->list[cNum].phone_numbers[i], "") != 0; i++) {
+
+	}
+	
+	printf("\n3. Email ID 1");
 }
 
 Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
