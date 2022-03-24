@@ -34,12 +34,12 @@ typedef enum
 
 typedef enum 
 {
-	e_first_opt,
-	e_second_opt,
-	e_third_opt,
-	e_fourth_opt,
-	e_fifth_opt,
-	e_sixth_opt,
+	e_first_opt = 48,
+	e_second_opt = 49,
+	e_third_opt = 50,
+	e_fourth_opt = 51,
+	e_fifth_opt = 52,
+	e_sixth_opt = 53,
 	e_no_opt = '\n' -'0',
 } MenuOptions;
 
@@ -54,13 +54,13 @@ typedef enum
 
 typedef enum 
 {
-	e_exit,
-	e_add_contact,
-	e_search_contact,
-	e_edit_contact,
-	e_delete_contact,
-	e_list_contacts,
-	e_save
+	e_exit = 48,
+	e_add_contact = 49,
+	e_search_contact = 50,
+	e_edit_contact = 51,
+	e_delete_contact = 52,
+	e_list_contacts = 53,
+	e_save = 54
 } MenuFeatures;
 
 typedef struct
