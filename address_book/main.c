@@ -7,18 +7,26 @@
 #include "address_book_fops.h"
 #include "address_book_menu.h"
 #include "address_book_fops.c"
-#include "address_book_menu.c"
+#include "edit.c"
+// #include "address_book_menu.c"
 
 
 
-int main(void)
+
+int main()
 {
      printf("============= Project 3, Group 2 =============\n");
      AddressBook address_book;
      Status ret;
+ 
 
     /* Load the file from .csv file if any */
     ret = load_file(&address_book);
+    
+    int n = address_book.count;
+    
+    printf("Number of contacts = %d.n", n);
+
 
     if (ret == e_success)
     {
@@ -31,11 +39,12 @@ int main(void)
         {
             printf("\n----- Calling save_prompt() function in main to save the entries. -----\n");
             /* Save the entries */
-         //   save_prompt(&address_book);
+            // save_prompt(&address_book);
         }
-
         
     }
+
+    free((&address_book)->list);
 
    
     printf("\n============= END of Project 3, Group 2 =============\n");
