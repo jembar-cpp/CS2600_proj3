@@ -13,11 +13,29 @@
 
 int get_option(int type, const char *msg)
 {
-	// Works for now
-	fflush(stdin);
-	printf(msg);
-    int option;
-	scanf("%c%*c", &option);
+    printf("%s", msg);
+
+    int option = 0;
+
+    if (type == NONE) {
+        getc(stdin);
+    }
+    else if (type == CHAR) {
+        option = getc(stdin);
+    }
+    else if (type == NUM) {
+        option = getc(stdin);
+        if (option >= '0' && option <= '9')
+        {
+            option -= '0';
+        }
+    }
+    else {
+        printf("Passed invalid int type to get_option function\n");
+        EXIT_FAILURE;
+    }
+
+    fflush(stdin);
     return option;
 }
 
