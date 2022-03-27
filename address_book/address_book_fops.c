@@ -38,7 +38,6 @@ Status load_file(AddressBook *address_book)
 			return e_fail;
 		}
 		char line[500];
-		char *number;
 		int len;
 		for (address_book->count = 0; fgets(line, 500, address_book->fp); address_book->count++) { // read file line by line
 			ContactInfo c; // create a new contact
@@ -117,6 +116,7 @@ Status load_file(AddressBook *address_book)
 	{
 		/* Create a file for adding entries */
 		address_book->fp = fopen(DEFAULT_FILE, "w"); // create the file
+		address_book->count = 0;
 		fclose(address_book->fp); // close the file
 	}
 
@@ -144,7 +144,7 @@ Status save_file(AddressBook *address_book)
 	for(int i = 0; i < address_book->count; i++) { // loop through list of contacts
 		ContactInfo cur = address_book->list[i]; // get the current contact info
 		// Write the name of the contact
-		fprintf(address_book->fp,"%s%c",cur.name,FIELD_DELIMITER);
+		fprintf(address_book->fp,"%s%c",cur.name[0],FIELD_DELIMITER);
 
 		// Write the contact's phone numbers
 		for(int j = 0; strcmp(cur.phone_numbers[j],"") != 0; j++) {
@@ -165,13 +165,4 @@ Status save_file(AddressBook *address_book)
 	
 	fclose(address_book->fp);
 	return e_success;
-}
-
-// Temporary for testing - Not included in final project
-int main() {
-	AddressBook address_book;
-	Status ret = load_file(&address_book); // attempt to load the file
-	ret = save_file(&address_book); // attempt to save to the file
-	free(address_book.list); // free memory when it's done
-	return 0;
 }
