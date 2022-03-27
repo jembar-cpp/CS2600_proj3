@@ -18,6 +18,7 @@
 #define EMAIL_ID_COUNT				5
 
 #define FIELD_DELIMITER				','
+#define FIELD_SEPARATOR				' '
 #define NEXT_ENTRY					'\n'
 
 typedef int bool_t;
@@ -33,12 +34,12 @@ typedef enum
 
 typedef enum 
 {
-	e_first_opt,
-	e_second_opt,
-	e_third_opt,
-	e_fourth_opt,
-	e_fifth_opt,
-	e_sixth_opt,
+	e_first_opt = 0,
+	e_second_opt = 1,
+	e_third_opt = 2,
+	e_fourth_opt = 3,
+	e_fifth_opt = 4,
+	e_sixth_opt = 5,
 	e_no_opt = '\n' -'0',
 } MenuOptions;
 
@@ -53,13 +54,13 @@ typedef enum
 
 typedef enum 
 {
-	e_exit,
-	e_add_contact,
-	e_search_contact,
-	e_edit_contact,
-	e_delete_contact,
-	e_list_contacts,
-	e_save
+	e_exit = 0,
+	e_add_contact = 1,
+	e_search_contact = 2,
+	e_edit_contact = 3,
+	e_delete_contact = 4,
+	e_list_contacts = 5,
+	e_save = 6
 } MenuFeatures;
 
 typedef struct
