@@ -150,6 +150,7 @@ Status menu(AddressBook *address_book)
 				break;
 			case e_save:
 				save_file(address_book);
+				get_option(NONE, "Done. Please enter key to continue: ");
 				break;
 			case e_exit:
 				break;
@@ -438,9 +439,297 @@ Status search_contact(AddressBook *address_book)
 	return e_fail;
 }
 
-Status edit_contact(AddressBook *address_book)
-{
-	/* Add the functionality for edit contacts here */
+/**
+ * Status edit_contact (AddressBook *address_book);
+ * @author: Suhuan
+ *
+ * 1a. prompt user to choose Edit by :
+ * name / phone No / email address / Serial No.
+ * press 0 to exit, back to main menu;
+ * 
+ * 2. calling search function to find and display the search result
+ *
+ * 3a. Define a ContactInfo pointer named listPtr, assign the pointer to address_book.list
+ * 3b. prompt user enter the serial No of contact list to edit,
+ * 3c. search the corresponding rowfieldIndex for that list,
+ * assign listPtr to the start address of that list: (address_book->list) + rowfieldIndex
+ *
+ * 4a. Display all information from that contact list in column format for each field
+ *     output empty space if the corresponding string value is ""
+ * 4b. prompt user to select option of editBy:
+ * 4c. go back if user press 0
+ *
+ */
+Status edit_contact (AddressBook *address_book) {
+
+    char targetName[NAME_LEN];
+    char targetPhone[NUMBER_LEN];
+    char targetEmail[EMAIL_ID_LEN];
+    char targetSi[32];
+
+    int editBy;
+    int str_len;
+    char ch;
+    Status ret;
+
+    EDIT_BY:
+    //  1a.
+        menu_header("Search Contact to edit by:\n");
+        printf("0. Back\n");
+        printf("1. Name\n");
+        printf("2. Phone No\n");
+        printf("3. Email ID\n");
+        printf("4. Serial No\n");
+
+        printf("\nPlease select an option: ");
+        editBy = get_option(NUM, "");
+
+        if (editBy == 0) {
+            return e_back;
+        }
+
+
+        switch (editBy) {
+
+            case 1: {
+                printf("Enter the Name: ");
+                fgets(targetName, NAME_LEN - 1, stdin);
+
+             //  scan through the user input within the max range
+                str_len = strnlen(targetName, NAME_LEN - 1);
+
+             //  add NUL termination to the char array to make it as string
+                targetName[str_len - 1] = '\0';
+
+                // calling search method with e_edit mode, field = 1 is for name
+                ret = search(targetName, address_book, address_book->count, 1, "Search result:\n", e_edit);
+                break;
+            }
+
+
+            case 2: {
+                printf("Enter the Phone Number: ");
+                fgets(targetPhone, NUMBER_LEN - 1, stdin);
+
+                str_len = strnlen(targetPhone, NUMBER_LEN - 1);
+                targetPhone[str_len - 1] = '\0';
+
+                ret = search(targetPhone, address_book, address_book->count, 2, "Search result:\n", e_edit);
+                break;
+            }
+
+            case 3: {
+                printf("Enter the Email ID: ");
+                fgets(targetEmail, EMAIL_ID_LEN - 1, stdin);
+                str_len = strnlen(targetEmail, EMAIL_ID_LEN - 1);
+                targetEmail[str_len - 1] = '\0';
+
+                ret = search(targetEmail, address_book, address_book->count, 3, "Search result:\n", e_edit);
+                break;
+            }
+
+            case 4: {
+                printf("Enter the Serial ID: ");
+                fgets(targetSi, 5, stdin);
+                str_len = strnlen(targetSi, 5);
+                targetSi[str_len - 1] = '\0';
+
+                ret = search(targetSi, address_book, address_book->count, 4, "Search result:\n", e_edit);
+                break;
+            }
+
+            default:
+                goto EDIT_BY;
+                break;
+
+        } // end of switch (editBy)
+
+
+        if (ret == e_fail) {
+            goto EDIT_BY;
+        }
+
+
+        // select a serial number of a list to edit
+        // create an ContactInfo pointer that points to the address of specify list
+        int sNum = get_option(NUM, "Select a Serial Number (S.No) to Edit: ");
+
+        // 3c
+        ContactInfo* listPtr  = address_book->list;
+
+        for (int rowfieldIndex = 0; rowfieldIndex < (address_book->count); rowfieldIndex++)
+        {
+            if ( sNum == ((address_book->list) + rowfieldIndex)->si_no )
+            {
+                listPtr += rowfieldIndex;
+                break; 
+            }
+        }
+
+        // step 4
+        do {
+            menu_header("Edit Contact");
+            printf("\n0. Back\n");
+
+            // display name (only one name per contact)
+            printf("1. Name       : %-s\n", (listPtr->name[0]));
+
+            // display phone number
+            printf("2. Phone No 1 : %-s\n", (listPtr->phone_numbers[0]));
+
+            for (int phonefieldIndex = 1; phonefieldIndex < PHONE_NUMBER_COUNT; phonefieldIndex++) {
+
+                // if there is more one phone numbers
+                // if condition compares if the max length of a phone number are empty string with NUL termination
+                // display        2 ...
+                //                3 ...etc.
+                if ( strcmp(listPtr->phone_numbers[phonefieldIndex], "") ) {
+                    printf("\n%13d : %-s", phonefieldIndex + 1, listPtr->phone_numbers[phonefieldIndex]);
+                }
+            }
+
+
+            // display email address
+            printf("\n3. Email ID 1 : %-s\n", listPtr->email_addresses[0]);
+            for (int emailfieldIndex = 1; emailfieldIndex < EMAIL_ID_COUNT; emailfieldIndex++) {
+
+                if ( strcmp(listPtr->email_addresses[emailfieldIndex], "") ) {
+                    printf("%13d : %-s\n", emailfieldIndex + 1, listPtr->email_addresses[emailfieldIndex]);
+                }
+
+            }
+
+
+            printf("\n");
+            menu_header("Edit Contact:\n\n");
+            printf("0. Back\n");
+            printf("1. Name\n");
+            printf("2. Phone No\n");
+            printf("3. Email ID\n");
+           // printf("4. Serial No\n");
+            printf("\nPlease select an option: ");
+
+            editBy = get_option(NUM, "");
+
+
+            /**
+             *  actual Edit part: 
+             * 1a. prompt user to enter the fieldIndex of that field to edit
+             * 1b. get the user input, break if out of the max count of that field
+             * 2a. prompt user for the new one
+             * 2b. add null termination by the end
+             * 3. copy user input to replace the old one in the same position
+             */
+            int fieldIndex;
+            int input_len;
+
+            // only allow user to edit name / phone NO./ email
+            switch (editBy) {
+
+                case 0:
+                    return e_back;
+
+                case 1: {
+                    // step 1
+                    printf("Enter name index to be changed [Max %d]: ", NAME_COUNT);
+                    char* target = (char*) malloc(sizeof(char) * NAME_LEN);
+                    fgets(target, NAME_LEN, stdin);
+                    fieldIndex = atoi(target);
+                    if (fieldIndex < 1 || fieldIndex > NAME_COUNT) {
+                        break;
+                    }
+
+                    // step 2
+                    printf("Enter Name %d: [Just enter removes the entry]: ", fieldIndex);
+
+                    fgets(target, NAME_LEN, stdin);
+                    input_len = strlen(target) - 1;
+
+                    // adding NULL termination
+                    if (target[input_len] == '\n')
+                    {
+                        target[input_len] = '\0';
+                    }
+
+                    // step 3, copy user defined e name to the corresponding list.name
+                    strcpy(listPtr->name[fieldIndex - 1], target);
+                    free(target);
+
+                    break;
+                }
+
+
+                case 2: {
+
+                    printf("Enter Phone Number index to be changed [Max %d]: ", PHONE_NUMBER_COUNT);
+                    char* target = (char*) malloc(sizeof(char) * NUMBER_LEN);
+                    fgets(target, NUMBER_LEN, stdin);
+
+                    // convert the integer to string representation
+                    fieldIndex = atoi(target);
+
+                    if (fieldIndex < 1 || fieldIndex > PHONE_NUMBER_COUNT)
+                    {
+                        break;
+                    }
+
+                    printf("Enter Phone Number %d: [Just enter removes the entry]: ", fieldIndex);
+
+                    fgets(target, NUMBER_LEN, stdin);
+                    input_len = strlen(target) - 1;
+
+                    if (target[input_len] == '\n')
+                    {
+                        target[input_len] = '\0';
+                    }
+
+                    strcpy(listPtr->phone_numbers[fieldIndex - 1], target);
+                    free(target);
+
+                    break;
+                }
+
+                case 3: {
+                    char* target = (char*) malloc(sizeof(char) * EMAIL_ID_LEN);
+
+                    printf("Enter Email ID fieldIndex to be changed [Max %d]: ", EMAIL_ID_COUNT);
+                    fgets(target, EMAIL_ID_LEN, stdin);
+                    fieldIndex = atoi(target);
+
+                    if (fieldIndex < 1 || fieldIndex > EMAIL_ID_COUNT)
+                    {
+                        break;
+                    }
+
+                    printf("Enter Email ID %d: [Just enter removes the entry]: ", fieldIndex);
+
+                    fgets(target, EMAIL_ID_LEN, stdin);
+                    input_len = strlen(target) - 1;
+
+                    if (target[input_len] == '\n')
+                    {
+                        target[input_len] = '\0';
+                    }
+
+                    strcpy(listPtr->email_addresses[fieldIndex - 1], target);
+                    free(target);
+
+                    break;
+                }
+
+                default:
+                    break;
+            }
+
+
+        } while (editBy != e_back);
+
+
+
+    free(listPtr);
+
+    return e_success;
+
 }
 
 Status delete_contact(AddressBook *address_book)
