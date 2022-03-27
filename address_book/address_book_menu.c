@@ -1,24 +1,32 @@
 #include <stdio.h>
-#include <stdio_ext.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <errno.h>
 #include <ctype.h>
 
-#include "abk_fileops.h"
-#include "abk_log.h"
-#include "abk_menus.h"
-#include "abk.h"
+#include "address_book.h"
+//#include "abk_log.h"
+#include "address_book_menu.h"
+#include "address_book.h"
 
 int get_option(int type, const char *msg)
 {
-	/*
-	 * Mutilfuction user intractions like
-	 * Just an enter key detection
-	 * Read an number
-	 * Read a charcter
-	 */ 
+	int option = 0;
 
-	/* Fill the code to add above functionality */
+	if (type == NONE) {
+		getc(stdin);
+	} else if (type == CHAR) {
+		option = getc(stdin);
+		if (option >= '0' && option <= '9') {
+			option -= '0';
+		}
+	} else {
+		EXIT_FAILURE;
+	}
+	fflush(stdin);
+	return option;
 }
 
 Status save_prompt(AddressBook *address_book)
@@ -106,7 +114,9 @@ Status menu(AddressBook *address_book)
 		switch (option)
 		{
 			case e_add_contact:
-				/* Add your implementation to call add_contacts function here */
+				/* you will have to call the add_contact function here
+					since this is the menu. */
+				add_contacts(address_book);
 				break;
 			case e_search_contact:
 				search_contact(address_book);
@@ -118,8 +128,8 @@ Status menu(AddressBook *address_book)
 				delete_contact(address_book);
 				break;
 			case e_list_contacts:
+				list_contacts(address_book, "list", 0, "list", e_list);
 				break;
-				/* Add your implementation to call list_contacts function here */
 			case e_save:
 				save_file(address_book);
 				break;
