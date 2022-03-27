@@ -585,7 +585,7 @@ Status edit_contact (AddressBook *address_book) {
             }
 	
 	    else if (rowfieldIndex == (address_book->count) - 1) {
-     		printf("Serial Number does not exits.\n");
+     		printf("Serial Number does not exist.\n");
      		goto GET_SI_NO;
  	    }	 
         }
