@@ -469,6 +469,7 @@ Status edit_contact (AddressBook *address_book) {
 
     int editBy;
     int str_len;
+    int sNum;
     char ch;
     Status ret;
 
@@ -552,7 +553,8 @@ Status edit_contact (AddressBook *address_book) {
 
         // select a serial number of a list to edit
         // create an ContactInfo pointer that points to the address of specify list
-        int sNum = get_option(NUM, "Select a Serial Number (S.No) to Edit: ");
+        GET_SI_NO:
+	sNum = get_option(NUM, "Select a Serial Number (S.No) to Edit: ");
 
         // 3c
         ContactInfo* listPtr  = address_book->list;
@@ -564,6 +566,11 @@ Status edit_contact (AddressBook *address_book) {
                 listPtr += rowfieldIndex;
                 break; 
             }
+	
+	    else if (rowfieldIndex == (address_book->count) - 1) {
+     		printf("Serial Number does not exits.\n");
+     		goto GET_SI_NO;
+ 	    }	 
         }
 
         // step 4
