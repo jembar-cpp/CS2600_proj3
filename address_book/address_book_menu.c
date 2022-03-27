@@ -219,6 +219,9 @@ Status add_contacts(AddressBook *address_book)
 				if (input[strlen(input)-1] == '\n') {
 					input[strlen(input)-1] = '\0';
 				}
+				if(strlen(input) >= NAME_LEN) { // string is too long - truncate it
+					input[NAME_LEN-1] = '\0';
+				}
 				strncpy(c.name[0], input, NAME_LEN);
 				break;
 			case e_third_opt:
@@ -227,6 +230,9 @@ Status add_contacts(AddressBook *address_book)
 				fgets(input, 500, stdin);
 				if (input[strlen(input)-1] == '\n') {
 					input[strlen(input)-1] = '\0';
+				}
+				if(strlen(input) >= NUMBER_LEN) { // string is too long - truncate it
+					input[NUMBER_LEN-1] = '\0';
 				}
 				strncpy(c.phone_numbers[phoneCount], input, NUMBER_LEN);
 				phoneCount++;
@@ -237,6 +243,9 @@ Status add_contacts(AddressBook *address_book)
 				fgets(input, 500, stdin);
 				if (input[strlen(input)-1] == '\n') {
 					input[strlen(input)-1] = '\0';
+				}
+				if(strlen(input) >= EMAIL_ID_LEN) { // string is too long - truncate it
+					input[EMAIL_ID_LEN-1] = '\0';
 				}
 				strncpy(c.email_addresses[emailCount], input, EMAIL_ID_LEN);
 				emailCount++;
