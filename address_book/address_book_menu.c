@@ -219,7 +219,7 @@ Status add_contacts(AddressBook *address_book)
 				if (input[strlen(input)-1] == '\n') {
 					input[strlen(input)-1] = '\0';
 				}
-				strcpy(c.name[0], input);
+				strncpy(c.name[0], input, NAME_LEN);
 				break;
 			case e_third_opt:
 				edited = 1;
@@ -228,7 +228,7 @@ Status add_contacts(AddressBook *address_book)
 				if (input[strlen(input)-1] == '\n') {
 					input[strlen(input)-1] = '\0';
 				}
-				strcpy(c.phone_numbers[phoneCount], input);
+				strncpy(c.phone_numbers[phoneCount], input, NUMBER_LEN);
 				phoneCount++;
 				break;
 			case e_fourth_opt:
@@ -238,7 +238,7 @@ Status add_contacts(AddressBook *address_book)
 				if (input[strlen(input)-1] == '\n') {
 					input[strlen(input)-1] = '\0';
 				}
-				strcpy(c.email_addresses[emailCount], input);
+				strncpy(c.email_addresses[emailCount], input, EMAIL_ID_LEN);
 				emailCount++;
 				break;
 		}
@@ -667,7 +667,7 @@ Status edit_contact (AddressBook *address_book) {
                     }
 
                     // step 3, copy user defined e name to the corresponding list.name
-                    strcpy(listPtr->name[fieldIndex - 1], target);
+                    strncpy(listPtr->name[fieldIndex - 1], target, NAME_LEN);
                     free(target);
 
                     break;
@@ -698,7 +698,7 @@ Status edit_contact (AddressBook *address_book) {
                         target[input_len] = '\0';
                     }
 
-                    strcpy(listPtr->phone_numbers[fieldIndex - 1], target);
+                    strncpy(listPtr->phone_numbers[fieldIndex - 1], target, NUMBER_LEN);
                     free(target);
 
                     break;
@@ -726,7 +726,7 @@ Status edit_contact (AddressBook *address_book) {
                         target[input_len] = '\0';
                     }
 
-                    strcpy(listPtr->email_addresses[fieldIndex - 1], target);
+                    strncpy(listPtr->email_addresses[fieldIndex - 1], target, EMAIL_ID_LEN);
                     free(target);
 
                     break;
