@@ -25,6 +25,6 @@ int main(void)
 			save_prompt(&address_book);
 		}
 	}
-
+	free(address_book->list);
 	return 0;
 }
